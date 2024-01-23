@@ -4,6 +4,7 @@ import pygame
 from Player import *
 from Maze import *
 from Constants import *
+from IA import *
 
 
 class App:
@@ -23,6 +24,9 @@ class App:
         self.timer = 0.0
         self.player = Player()
         self.maze = Maze(mazefile)
+        self.ia = IA(self.maze, self.player)
+        
+        
 
     def on_init(self):
         pygame.init()
@@ -54,6 +58,7 @@ class App:
         # Utility functions for AI
         if keys[K_p]:
             self.maze.make_perception_list(self.player, self._display_surf)
+            self.ia.verification_proxi(self._display_surf)
             # returns a list of 5 lists of pygame.rect inside the perception radius
             # the 4 lists are [wall_list, obstacle_list, item_list, monster_list, door_list]
             # item_list includes coins and treasure
@@ -79,6 +84,7 @@ class App:
 
     # FONCTION À Ajuster selon votre format d'instruction
     def on_AI_input(self, instruction):
+        self.ia.verification_proxi(self._display_surf)
         if instruction == 'RIGHT':
             self.move_player_right()
 
@@ -203,7 +209,8 @@ class App:
             pygame.event.pump()
             keys = pygame.key.get_pressed()
             self.on_keyboard_input(keys)
-            # self.on_AI_input(instruction)
+            #print("Position joueur:", self.player.get_position())
+            self.on_AI_input(self.ia.mouvement())
             if self.on_coin_collision():
                 self.score += 1
             if self.on_treasure_collision():
