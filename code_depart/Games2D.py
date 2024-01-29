@@ -137,10 +137,7 @@ class App:
             Obs.set_obstacle_position()
             direction_id = round(Obs.rectifier())
             print(direction_id)
-            # Obs.NewWay(direction_id,self.ia)
-            self.ia.wayout.indications_deplacement.clear()
-            self.ia.wayout.restart(self.player,deplacement[direction_id])
-                
+            Obs.rectified_list(direction_id,self.ia)
             return True
         return False
 

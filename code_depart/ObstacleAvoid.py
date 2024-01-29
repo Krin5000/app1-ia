@@ -79,11 +79,33 @@ class ObstacleAvoid:
             print(self.chemin, "n'est pas dans la liste deplacement.")
             return -1
         
-        # indices = np.where(deplacement == self.chemin)[0].tolist()
-        # direction = deplacement[indices[0]]
-        # rectified_direction = FL.decide_direction(distance_to_obstacle_x,distance_to_obstacle_y,direction)
-        # return rectified_direction
     
+    def rectified_list(self,rectified_direction_id,ia):
+        deplacement = ['LEFT','DOWN','RIGHT','UP']
+        rectified_direction = deplacement[rectified_direction_id]
+        
+        list_d = []
+        obstacle_width = ITEM_SIZE*self.tile_size_x   
+        obstacle_heigth = ITEM_SIZE*self.tile_size_y
+        incr = round(min(obstacle_width,obstacle_heigth))
+        wayout = ia.wayout
+        
+        list_d += [rectified_direction]*incr 
+        nbrM = ia.nbrM
+        # print('avant rectification: ' , wayout.indications_deplacement)
+        deviation =wayout.indications_deplacement[:nbrM] + list_d + wayout.indications_deplacement[nbrM:]
+        # print('après deviation: ' , deviation)
+        contrary_list = ['RIGHT','UP','LEFT','DOWN']
+        
+         
+        contrary = contrary_list[rectified_direction_id]
+        list_c = []
+        list_c += [contrary]*incr
+        
+        wayout.indications_deplacement = deviation[:2*incr + nbrM] + list_c + deviation[2*incr + nbrM:]
+        ia.nbrM = nbrM+1
+        # print('après rectification: ' , wayout.indications_deplacement)
+        
     
     def NewWay(self,deplacement_id,ia):
 

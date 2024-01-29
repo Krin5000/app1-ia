@@ -17,8 +17,8 @@ M = 16
 # tile_size_x = PLAYER_SIZE*WIDTH/M #10,875
 # tile_size_y = PLAYER_SIZE*HEIGHT /N #4,75
 
-tile_size_x = 8
-tile_size_y = 8
+tile_size_x = 6
+tile_size_y = 6
 
 
 #distance to obstacle = player - 
@@ -109,11 +109,11 @@ def decide_direction(distance_x, distance_y, incoming_dir):
     direction_decision.compute()
     return direction_decision.output['direction']
 
-#TODO normaliser les distance player-obstacle de sorte a avoir les valeurs entre -10 et 10
-# Example usage
-distance_x_value = 8  # Replace with actual value
-distance_y_value = 16.5  # Replace with actual value
-incoming_direction_value = 1  # Replace with actual value  ['LEFT','DOWN','RIGHT','UP']
+# #TODO normaliser les distance player-obstacle de sorte a avoir les valeurs entre -10 et 10
+# # Example usage
+# distance_x_value = 8  # Replace with actual value
+# distance_y_value = 16.5  # Replace with actual value
+# incoming_direction_value = 1  # Replace with actual value  ['LEFT','DOWN','RIGHT','UP']
 
-result = decide_direction(distance_x_value, distance_y_value, incoming_direction_value)
-print("Direction decision:", deplacement[round(result)],' ',result)
+# result = decide_direction(distance_x_value, distance_y_value, incoming_direction_value)
+# print("Direction decision:", deplacement[round(result)],' ',result)
