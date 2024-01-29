@@ -14,8 +14,11 @@ M = 16
 #     M = M1
 #     N = N1
 
-tile_size_x = (PLAYER_SIZE - ITEM_SIZE)*WIDTH/M #10,875
-tile_size_y = (PLAYER_SIZE - ITEM_SIZE)*HEIGHT /N #4,75
+# tile_size_x = PLAYER_SIZE*WIDTH/M #10,875
+# tile_size_y = PLAYER_SIZE*HEIGHT /N #4,75
+
+tile_size_x = 8
+tile_size_y = 8
 
 
 #distance to obstacle = player - 
@@ -57,7 +60,7 @@ rule8 = ctrl.Rule(distance_to_obstacle_x['gauche'] & distance_to_obstacle_y['mil
 rule9 = ctrl.Rule(distance_to_obstacle_x['gauche'] & distance_to_obstacle_y['haut'] & incoming_direction['UP'], direction['UP'])
 rule10 = ctrl.Rule(distance_to_obstacle_x['gauche'] & distance_to_obstacle_y['haut'] & incoming_direction['RIGHT'], direction['UP'])
 rule11 = ctrl.Rule(distance_to_obstacle_x['gauche'] & distance_to_obstacle_y['haut'] & incoming_direction['DOWN'], direction['LEFT'])
-rule12 = ctrl.Rule(distance_to_obstacle_x['gauche'] & distance_to_obstacle_y['haut'] & incoming_direction['LEFT'], direction['UP'])
+rule12 = ctrl.Rule(distance_to_obstacle_x['gauche'] & distance_to_obstacle_y['haut'] & incoming_direction['LEFT'], direction['LEFT'])
 
 rule13 = ctrl.Rule(distance_to_obstacle_x['milieu'] & distance_to_obstacle_y['bas'] & incoming_direction['UP'], direction['RIGHT']) #OU LEFT
 rule14 = ctrl.Rule(distance_to_obstacle_x['milieu'] & distance_to_obstacle_y['bas'] & incoming_direction['RIGHT'], direction['DOWN'])
@@ -75,7 +78,7 @@ rule23 = ctrl.Rule(distance_to_obstacle_x['milieu'] & distance_to_obstacle_y['ha
 rule24 = ctrl.Rule(distance_to_obstacle_x['milieu'] & distance_to_obstacle_y['haut'] & incoming_direction['LEFT'], direction['UP'])
 
 rule25 = ctrl.Rule(distance_to_obstacle_x['droite'] & distance_to_obstacle_y['bas'] & incoming_direction['UP'], direction['RIGHT'])
-rule26 = ctrl.Rule(distance_to_obstacle_x['droite'] & distance_to_obstacle_y['bas'] & incoming_direction['RIGHT'], direction['DOWN'])
+rule26 = ctrl.Rule(distance_to_obstacle_x['droite'] & distance_to_obstacle_y['bas'] & incoming_direction['RIGHT'], direction['RIGHT'])
 rule27 = ctrl.Rule(distance_to_obstacle_x['droite'] & distance_to_obstacle_y['bas'] & incoming_direction['DOWN'], direction['DOWN'])
 rule28 = ctrl.Rule(distance_to_obstacle_x['droite'] & distance_to_obstacle_y['bas'] & incoming_direction['LEFT'], direction['DOWN'])
 
@@ -106,10 +109,11 @@ def decide_direction(distance_x, distance_y, incoming_dir):
     direction_decision.compute()
     return direction_decision.output['direction']
 
+#TODO normaliser les distance player-obstacle de sorte a avoir les valeurs entre -10 et 10
 # Example usage
-# distance_x_value = -3  # Replace with actual value
-# distance_y_value = 10  # Replace with actual value
-# incoming_direction_value = 1  # Replace with actual value  ['LEFT','DOWN','RIGHT','UP']
+distance_x_value = 8  # Replace with actual value
+distance_y_value = 16.5  # Replace with actual value
+incoming_direction_value = 1  # Replace with actual value  ['LEFT','DOWN','RIGHT','UP']
 
-# result = decide_direction(distance_x_value, distance_y_value, incoming_direction_value)
-# print("Direction decision:", round(result))
+result = decide_direction(distance_x_value, distance_y_value, incoming_direction_value)
+print("Direction decision:", deplacement[round(result)],' ',result)

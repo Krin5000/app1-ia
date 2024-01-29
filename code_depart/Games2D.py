@@ -128,6 +128,7 @@ class App:
         return False
 
     def on_obstacle_collision(self):
+        deplacement = ['LEFT','DOWN','RIGHT','UP']
         collide_index = self.player.get_rect().collidelist(self.maze.obstacleList)
         if not collide_index == -1:
             # print("Collision Detected!")
@@ -135,8 +136,10 @@ class App:
             Obs = ObstacleAvoid(self.maze,self.ia.mouvement(),self.player)
             Obs.set_obstacle_position()
             direction_id = round(Obs.rectifier())
-            Obs.NewWay(direction_id,self.ia)
-            # self.ia.wayout.restart(self.player)
+            print(direction_id)
+            # Obs.NewWay(direction_id,self.ia)
+            self.ia.wayout.indications_deplacement.clear()
+            self.ia.wayout.restart(self.player,deplacement[direction_id])
                 
             return True
         return False

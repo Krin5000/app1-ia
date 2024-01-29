@@ -211,7 +211,7 @@ class WayOut:
             return 0
         return nbr
     
-    def restart(self, player):
+    def restart(self, player,deplacement = []):
         x, y = player.get_position()
         
         self.position_depart = (int(y/(HEIGHT / self.hauteur_grille)),int(x/(WIDTH / self.largeur_grille)))
@@ -219,7 +219,7 @@ class WayOut:
 
         self.indications_deplacement.clear()
 
-        chemin_solution = self.profondeur_abord(self.position_depart, [])
+        chemin_solution = self.profondeur_abord(self.position_depart, deplacement)
 
         for i in range(1, len(chemin_solution)):
             directions = self.convertir_direction(

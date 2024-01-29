@@ -64,9 +64,12 @@ class ObstacleAvoid:
         x,y = self.player.get_position()
         obs_x,obs_y = self.obstacle_position[0],self.obstacle_position[1]
         
-        #distance to obstacle = player - obstacle
+        #distance to obstacle = player - obstacle (dans un repère classique en ramenant au repère pygame x=x et y=-y)
         distance_to_obstacle_x = x - obs_x
-        distance_to_obstacle_y = y - obs_y
+        distance_to_obstacle_y = obs_y - y
+        
+        print('distance x ', distance_to_obstacle_x)
+        print('distance y ', distance_to_obstacle_y)
         
         if self.chemin in deplacement:
             indice_de_direction = np.where(np.array(deplacement) == self.chemin)[0].tolist()
@@ -85,10 +88,11 @@ class ObstacleAvoid:
     def NewWay(self,deplacement_id,ia):
 
         deplacement = ['LEFT','DOWN','RIGHT','UP']    
-        ia.wayout.profondeur_abord(self.player.get_position(), [deplacement[deplacement_id]])
+        ia.wayout.indications_deplacement.clear()
+        # ia.wayout.profondeur_abord(self.player.get_position(), [deplacement[deplacement_id]])
         ia.wayout.indications_deplacement.extend(deplacement[deplacement_id])
         
-        # ia.wayout.indications_deplacement.clear()
+        
 
         # chemin_solution = ia.wayout.profondeur_abord(self.player.get_position(), [deplacement[deplacement_id]])
 
