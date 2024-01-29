@@ -131,6 +131,13 @@ class App:
         collide_index = self.player.get_rect().collidelist(self.maze.obstacleList)
         if not collide_index == -1:
             # print("Collision Detected!")
+            
+            Obs = ObstacleAvoid(self.maze,self.ia.mouvement(),self.player)
+            Obs.set_obstacle_position()
+            direction_id = round(Obs.rectifier())
+            Obs.NewWay(direction_id,self.ia)
+            # self.ia.wayout.restart(self.player)
+                
             return True
         return False
 
@@ -209,8 +216,17 @@ class App:
             pygame.event.pump()
             keys = pygame.key.get_pressed()
             self.on_keyboard_input(keys)
-            #print("Position joueur:", self.player.get_position())
+            # print("Position joueur:", self.player.get_position())
             self.on_AI_input(self.ia.mouvement())
+            if self.on_obstacle_collision():
+                print('chemin actuel')
+                # Obs = ObstacleAvoid(self.maze,self.ia.mouvement(),self.player)
+                # Obs.set_obstacle_position()
+                # direction_id = round(Obs.rectifier())
+                # print(direction_id)
+                # Obs.NewWay(direction_id,self.ia)
+                # self.ia.wayout.restart(self.player) 
+                # print('il y a un obstacle ici: ',Obs.obstacle_position)
             if self.on_coin_collision():
                 self.score += 1
             if self.on_treasure_collision():

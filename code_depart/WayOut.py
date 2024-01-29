@@ -120,8 +120,8 @@ class WayOut:
             nb_deplacement = ((i_old * (HEIGHT / self.hauteur_grille))) - ((i_new * (HEIGHT / self.hauteur_grille)))
             nb = (nb_deplacement / distance_max)
 
-            if (nb - int(nb)) > 0:
-                nb = nb + 1
+            # if (nb - int(nb)) > 0:
+            #     nb = nb + 1
 
             directions.extend(['UP'] * int(nb))
             nb_deplacement = 0
@@ -215,7 +215,7 @@ class WayOut:
         x, y = player.get_position()
         
         self.position_depart = (int(y/(HEIGHT / self.hauteur_grille)),int(x/(WIDTH / self.largeur_grille)))
-        print("Nouvelle position:",self.position_depart)
+        # print("Nouvelle position:",self.position_depart)
 
         self.indications_deplacement.clear()
 
@@ -226,5 +226,5 @@ class WayOut:
                 chemin_solution[i - 1], chemin_solution[i], self.distance_max
             )
             self.indications_deplacement.extend(directions)
-        print("Nouvelle grille:", self.indications_deplacement)
+        # print("Nouvelle grille:", self.indications_deplacement)
         return 0
