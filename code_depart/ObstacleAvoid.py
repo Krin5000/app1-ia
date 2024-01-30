@@ -97,9 +97,9 @@ class ObstacleAvoid:
         rectified_direction = deplacement[rectified_direction_id]
         
         list_d = []
-        obstacle_width = ITEM_SIZE*self.tile_size_x   
-        obstacle_heigth = ITEM_SIZE*self.tile_size_y
-        incr = round(min(obstacle_width,obstacle_heigth) - 1) 
+        obstacle_width = 0.2*self.tile_size_x   
+        obstacle_heigth = 0.2*self.tile_size_y
+        incr = round(min(obstacle_width,obstacle_heigth)) 
         wayout = ia.wayout
         
         list_d += [rectified_direction]*incr 
@@ -114,6 +114,6 @@ class ObstacleAvoid:
         
         wayout.indications_deplacement = deviation[:2*incr + nbrM] + list_c + deviation[2*incr + nbrM:]
         ia.nbrM = nbrM+1
-
+        
         
         
