@@ -17,8 +17,8 @@ M = 16
 # tile_size_x = PLAYER_SIZE*WIDTH/M #10,875
 # tile_size_y = PLAYER_SIZE*HEIGHT /N #4,75
 
-tile_size_x = 6
-tile_size_y = 6
+tile_size_x = 5
+tile_size_y = 5
 
 
 #distance to obstacle = player - 

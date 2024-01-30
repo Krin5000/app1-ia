@@ -1,7 +1,5 @@
 from Constants import *
 from WayOut import *
-import skfuzzy as fuzz
-from skfuzzy import control as ctrl
 import numpy as np
 import FuzzyLogic as FL
 
@@ -9,17 +7,12 @@ import FuzzyLogic as FL
 class ObstacleAvoid:
     
     """Cette fonction prendra le chemin généré par WayOut
-    puis récupère la position de l'obstacle et génère un chemin alternatif (ou des instructions supplémentaires)
-    et réécris la fonction de wayout en placant les instructions
+    puis récupère la position de l'obstacle et génère des instructions supplémentaires
     
-    l'algorithme de logique flou va prendre en entrée la position du joueur et de l'obstacle et retourne un des chiffres
-    0: tout a gauche
-    1: un peu a gauche
-    2: tout droit
-    3: un peu a droite 
-    4: tout a droite 
+    maze : l'objet maze instancié qui comporte les informations du labyrinthe
+    wayout: l'objet contenant les informations sur le chemin de sortie
+    player: l'objet instancié représentant le joueur
     
-    puis on ajoute la nouvelle direction a la liste qu'on va réécrire
     """
     def __init__(self,maze,wayout,player):        
         self.maze = maze
@@ -33,6 +26,8 @@ class ObstacleAvoid:
         
     
     def set_obstacle_position(self):
+        """fonction qui va mettre à jour la position de l'obstacle
+        """
         obstacle_list = self.maze.obstacleList
         indice = self.trouver_indice_plus_petite_distance(obstacle_list)
         self.obstacle_position = obstacle_list[indice]
@@ -41,6 +36,12 @@ class ObstacleAvoid:
         
         
     def trouver_indice_plus_petite_distance(self,L1):
+        '''fonction qui permet de retrouver l'obstacle le plus proche en fonction 
+        des coordonnées x et y puis retourne l'indice de l'obstacle le plus proche
+        L1: liste d'obstacles en format rect[a,b,c,d]
+            a,b les coordonnées du sommets
+            c,d les dimensions 
+        '''
         x,y = self.player.get_position()
         if not L1:
             return None  # Retourne None si la liste est vide
@@ -60,6 +61,10 @@ class ObstacleAvoid:
         return indice_min_total
     
     def rectifier(self):
+        '''fonction qui va retourner la direction optimale à prendre pour éviter l'obstacle
+        retourne l'indice de la direction suivant la liste ['LEFT','DOWN','RIGHT','UP']
+        ou -1 si la direction n'existe pas.
+        '''
         deplacement = ['LEFT','DOWN','RIGHT','UP']
         x,y = self.player.get_position()
         obs_x,obs_y = self.obstacle_position[0],self.obstacle_position[1]
@@ -81,20 +86,25 @@ class ObstacleAvoid:
         
     
     def rectified_list(self,rectified_direction_id,ia):
+        """fonction qui va mettre à jour le chemin de wayout afin d'intégrer les directions permettant
+        l'évitement des obstacles. 
+
+        Args:
+            rectified_direction_id (int): l'indice de la direction suivant la liste ['LEFT','DOWN','RIGHT','UP']
+            ia (IA): objet instancié représentant le joueur intelligent
+        """
         deplacement = ['LEFT','DOWN','RIGHT','UP']
         rectified_direction = deplacement[rectified_direction_id]
         
         list_d = []
         obstacle_width = ITEM_SIZE*self.tile_size_x   
         obstacle_heigth = ITEM_SIZE*self.tile_size_y
-        incr = round(min(obstacle_width,obstacle_heigth))
+        incr = round(min(obstacle_width,obstacle_heigth) - 1) 
         wayout = ia.wayout
         
         list_d += [rectified_direction]*incr 
         nbrM = ia.nbrM
-        # print('avant rectification: ' , wayout.indications_deplacement)
         deviation =wayout.indications_deplacement[:nbrM] + list_d + wayout.indications_deplacement[nbrM:]
-        # print('après deviation: ' , deviation)
         contrary_list = ['RIGHT','UP','LEFT','DOWN']
         
          
@@ -104,24 +114,6 @@ class ObstacleAvoid:
         
         wayout.indications_deplacement = deviation[:2*incr + nbrM] + list_c + deviation[2*incr + nbrM:]
         ia.nbrM = nbrM+1
-        # print('après rectification: ' , wayout.indications_deplacement)
-        
-    
-    def NewWay(self,deplacement_id,ia):
 
-        deplacement = ['LEFT','DOWN','RIGHT','UP']    
-        ia.wayout.indications_deplacement.clear()
-        # ia.wayout.profondeur_abord(self.player.get_position(), [deplacement[deplacement_id]])
-        ia.wayout.indications_deplacement.extend(deplacement[deplacement_id])
         
-        
-
-        # chemin_solution = ia.wayout.profondeur_abord(self.player.get_position(), [deplacement[deplacement_id]])
-
-        # for i in range(1, len(chemin_solution)):
-        #     directions = ia.wayout.convertir_direction(
-        #         chemin_solution[i - 1], chemin_solution[i], ia.wayout.distance_max
-        #     )
-        #     ia.wayout.indications_deplacement.extend(directions)
-        print('new way :',deplacement[deplacement_id])
         

@@ -220,13 +220,6 @@ class App:
             self.on_AI_input(self.ia.mouvement())
             if self.on_obstacle_collision():
                 print('chemin actuel')
-                # Obs = ObstacleAvoid(self.maze,self.ia.mouvement(),self.player)
-                # Obs.set_obstacle_position()
-                # direction_id = round(Obs.rectifier())
-                # print(direction_id)
-                # Obs.NewWay(direction_id,self.ia)
-                # self.ia.wayout.restart(self.player) 
-                # print('il y a un obstacle ici: ',Obs.obstacle_position)
             if self.on_coin_collision():
                 self.score += 1
             if self.on_treasure_collision():
